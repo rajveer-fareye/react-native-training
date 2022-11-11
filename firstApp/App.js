@@ -85,8 +85,11 @@ import React from "react";
 import { View , Text} from "react-native";
 import Login from "./Login";
 import SignUp from "./SignUp";
+import MainPage from "./MainPage";
+import TodoForm from "./TodoFrom";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator} from "@react-navigation/native-stack"
+import { AuthProvider } from "./src/context/AuthContext";
 
 
 const App = () => {
@@ -110,28 +113,42 @@ export default App;
 function NavStack() {
   const Stack  = createNativeStackNavigator();
   return (
+    <AuthProvider>
      <Stack.Navigator
+        
         screenOptions={{
           headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#621FF7',
-          },
+          headerStyle: {backgroundColor: '#621FF7',},
           headerTintColor: '#fff',
-          headerTitleStyle :{
-            fontWeight: 'bold',
-          },
+          headerTitleStyle :{fontWeight: 'bold'},
+          
+          
         }}
       >
       <Stack.Screen 
         name="Login" 
         component={Login} 
-        options={{ title: 'Welcome' }}
+        options={{ headerShown: false }}
+        
       />
       <Stack.Screen 
         name="SignUp" 
         component={SignUp} 
-        options={{ title: 'Welcome' }}
+        options={ { headerShown: false }}
+      />
+      <Stack.Screen 
+        name="MainPage" 
+        component={MainPage} 
+        options={ { headerShown: false }}
+        
+      />
+      <Stack.Screen 
+        name="TodoForm" 
+        component={TodoForm} 
+        options={ { headerShown: false }}
+        
       />
     </Stack.Navigator>
+    </AuthProvider>
   );
 }

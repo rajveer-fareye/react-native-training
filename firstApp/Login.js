@@ -1,27 +1,33 @@
-import { SafeAreaView, View, Text, TextInput, useState, StyleSheet , Button, CheckBox, navigation, Alert} from 'react-native'
-import React from 'react'
+import { SafeAreaView, View, Text, TextInput, useState,Input, StyleSheet , Button, CheckBox, navigation, Alert, ScrollView, TouchableOpacity, icon} from 'react-native'
+import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import { AuthContext } from './src/context/AuthContext';
+import { BASE_URL } from './src/config';
 
 
 const Login = () => {
     const navigation = useNavigation();
-    const [name, onChangeName] = React.useState('');
+    const [email, onChangeEmail] = React.useState('');
     const [password,onChangePassword] = React.useState('');
+    const [isSecureEntry, setisSecureEntry] = React.useState(true);
+
+    const {login} = useContext(AuthContext);
+
 
   return (
-    <SafeAreaView style={{flex:3}}>
-      <View style={{flex:1}}>
+    <SafeAreaView style={{flex:1}}>
+      <ScrollView >
+      <View  style={{flex:1}}>
         <Text style={styles.texting}> we are inspired from local app</Text>
       </View>
-
-      <View style={{flex:2}}>
+      
+      <View style={{flex:1}} >
       <View>
         <TextInput
             style={styles.input}
-            placeholder= 'Username'
-            onChangeText={onChangeName}
-            value={name}
+            placeholder= 'Email'
+            onChangeText={onChangeEmail}
+            value={email}
         
         />
       </View>
@@ -31,21 +37,28 @@ const Login = () => {
             placeholder= 'Password'
             onChangeText={onChangePassword}
             value={password}
+            secureTextEntry={isSecureEntry}
+            icon={<TouchableOpacity onPress={()=> { setisSecureEntry((prev) => !prev)}}>
+              <Text>{isSecureEntry?'Show':'Hide'}</Text>
+            </TouchableOpacity>}
+            
+            // iconPosition="right"
         
         />
+        
       </View>
       
       <View style= {styles.button}>
       <Button
         // style={styles.button}
         title="Login"
-        onPress={() => Alert.alert('Login Failed')}
+        onPress={() => {login(email,password)}}
       />
       
     </View>
     
       <View >
-        <Text onPress={() => navigation.navigate('SignUp')}>Dont have an account? Signup</Text>
+        <Text style={styles.signupui} onPress={() => navigation.navigate('SignUp')}>Dont have an account? Signup</Text>
             {/* <Button
                 title="SignUp"
                 onPress={() => navigation.navigate('SignUp')}
@@ -53,9 +66,15 @@ const Login = () => {
         </View>
       
       </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
+
+
+
+
+
 
 export default Login;
 
@@ -67,19 +86,26 @@ const styles = StyleSheet.create({
       margin: 20,
       borderWidth: 1,
       padding: 10,
-      borderRadius: 15,
+      borderRadius: 10,
     },
     button: {
       height: 40,
       margin: 20,
-      borderWidth: 1,
-      // padding: 10,
-      // borderRadius: 15,
-      // backgroundColor: 'black',
+      
       },
       texting:{
         height: 80,
       margin: 90,
+      // backgroundColor:'blue'
       // borderWidth: 1,
+      },
+      signupui:{
+        // alignContent:'center',
+        textAlign:'center',
+
+      },
+      edged:{
+
       }
+
   });

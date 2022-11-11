@@ -1,67 +1,83 @@
-import { SafeAreaView, View, Text, TextInput, useState, StyleSheet , Button, CheckBox, navigation, Alert} from 'react-native'
-import React from 'react'
+import { SafeAreaView, View, Text, TextInput, useState, StyleSheet , Button, CheckBox, navigation, Alert, ScrollView} from 'react-native'
+import React, { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from './src/context/AuthContext';
 
 
-const Login = ({navigation}) => {
+const Signup = ({navigation}) => {
     // const [text, setText] = useState('');
-    const [name, onChangeName] = React.useState('');
+    const [firstName, onChangeFirstName] = React.useState('');
+    const [lastName, onChangeLastName] = React.useState('');
+    const [email, onChangeEmail] = React.useState('');
     const [password,onChangePassword] = React.useState('');
-    const [confirmPassword, onChangeConfirmPassword] = React.useState('');
+    
+    const {register} = useContext(AuthContext);
 
   return (
-    <SafeAreaView>
-      <View>
-        <TextInput
-            style={styles.input}
-            placeholder= 'Username'
-            onChangeText={onChangeName}
-            value={name}
-        
-        />
+    <SafeAreaView style={{flex:2}}>
+      <ScrollView >
+      <View  style={{flex:1}}>
+        <Text style={styles.texting}> we are inspired from local app</Text>
       </View>
-      <View>
-        <TextInput
-            style={styles.input}
-            placeholder= 'Password'
-            onChangeText={onChangePassword}
-            value={password}
-        
-        />
-      </View>
-      <View>
-        <TextInput
-            style={styles.input}
-            placeholder= 'Confirm Password'
-            onChangeText={onChangeConfirmPassword}
-            value={confirmPassword}
-        
-        />
-      </View>
+      <View style={{flex:1}}>
+          <View  >
+            <TextInput
+                style={styles.input}
+                placeholder= 'First Name'
+                onChangeText={onChangeFirstName}
+                value={firstName}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder= 'Last Name'
+                onChangeText={onChangeLastName}
+                value={lastName}
+            />
+          </View>
+          <View>
+            <TextInput
+                style={styles.input}
+                placeholder= 'Email'
+                onChangeText={onChangeEmail}
+                value={email}
+            
+            />
+          </View>
+          <View>
+            <TextInput
+                style={styles.input}
+                placeholder= 'Password'
+                onChangeText={onChangePassword}
+                value={password}
+            
+            />
+          </View>
+          
       
-      <View>
-      <Button
-        style={styles.button}
-        title="SignUp"
-        onPress={() => Alert.alert('Signup Failed')}
-      />
-      
-    </View>
-    <View>
-        {/* <Text> have an account? SignUp</Text> */}
-        <Text
-              style={styles.registerTextStyle}
-              onPress={() => navigation.navigate('Login')}>
-              Already Have account
-            </Text>
-      </View>
-      
-      
+          <View style={styles.button}> 
+          <Button
+            
+            title="SignUp"
+            onPress={() => register(firstName,lastName,email,password)}
+          />
+          
+          </View>
+          <View>
+            
+            <Text
+                  
+                  style={styles.signupui}
+                  onPress={() => navigation.navigate('Login')}>
+                  Already Have account! Login
+                </Text>
+          </View>
+      </View> 
+      </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default Login;
+export default Signup;
 
 
 
@@ -76,9 +92,19 @@ const styles = StyleSheet.create({
   button: {
     height: 40,
     margin: 20,
-    borderWidth: 1,
+    // borderWidth: 1,
     // padding: 10,
     // borderRadius: 15,
     // backgroundColor: 'black',
+    },
+    signupui:{
+      // alignContent:'center',
+      textAlign:'center',
+
+    },
+    texting:{
+      height: 80,
+    margin: 90,
+    // borderWidth: 1,
     },
 });
